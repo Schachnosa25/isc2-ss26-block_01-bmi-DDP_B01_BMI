@@ -20,7 +20,7 @@
  *     To do so, collect data from your users. Values within :colons: are (formatted) user-inputs;
  *     values within <angle brackets> have to be calculated by your software.
  *
- *     You - 2026-03-05
+ *     Schachnosa Viertbauer - 2026-03-16
  *******************************************************/
 
 /*
@@ -77,3 +77,55 @@ console.log(LINE); // Logs the dashed-line.
  * TODO: Make sure to TEST YOUR SOFTWARE! Does it work, when People are smaller than 1 meter? Or taller than 2?
  * Tip: An 18-Year old Woman, sized 160cm with 60 kg should have a BMR of 1467 kcal and a BMI of 23.4375.
  */
+
+// SOFTWARE :) Start
+
+console.log(LINE);
+
+const sex = prompt("Enter your sex (male/female):").toLowerCase();
+const lastName = prompt("Enter your last name:");
+const firstName = prompt("Enter your first name:");
+const ageInput = prompt("Please enter your age:");
+const heightMeters = Number(prompt("Enter your height in meters:"));
+const weight = Number(prompt("Enter your weight in kg:"));
+
+
+if (
+    ageInput === null || isNaN(Number(ageInput)) || isNaN(heightMeters) || isNaN(weight) || Number(ageInput) <= 0 || heightMeters <= 0 || weight <= 0
+) {
+    alert("Invalid input! Please enter valid numbers greater than 0.");
+} else {
+    const age = Number(ageInput);
+    const heightCm = heightMeters * 100; // convert to cm for formulas
+
+    // BMR
+    const women = {A: 655, B: 10, C: 2, D: 6};
+    const men = {A: 66, B: 14, C: 5, D: 7};
+
+    const {A, B, C, D} = (sex === "female") ? women : men;
+
+    const BMR = A + B * weight + C * heightCm - D * age;
+
+    // BMI
+    const BMI = (10000 * weight) / (heightCm * heightCm);
+
+    // Normal
+    const normal = (BMI >= 18 && BMI <= 25) ? "Yes" : "No";
+
+    // Danger
+    const danger = (BMI < 16 || BMI >= 30) ? "Yes" : "No";
+
+    alert(
+        `${LINE}
+Name:                   \t\t\t${lastName}, ${firstName}
+${LINE}
+Age:                    \t\t\t${age} Years
+Height:                \t\t\t${heightMeters.toFixed(2)}m
+Weight:                 \t\t\t${weight} kg
+Basal Metabolic Rate:   \t\t\t${BMR.toFixed(0)} kcal
+Body Mass Index:        \t\t\t${BMI.toFixed(2)}
+Normal Weight:          \t\t\t${normal}
+Danger:                 \t\t\t${danger}
+${LINE}`
+    );
+}
